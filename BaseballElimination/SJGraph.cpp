@@ -24,8 +24,10 @@ int SJGraph::GetNumVertices()
 void SJGraph::AddEdge(SJEdge* e)
 {
 	m_vecAdj[e->GetSource()].push_back(e);
-	m_vecAdj[e->GetDest()].push_back(e);
+	SJEdge* e1 = new SJEdge(e->GetDest(), e->GetSource(), 0);
+	m_vecAdj[e->GetDest()].push_back(e1);
 	m_edgeList.push_back(e);
+	m_edgeList.push_back(e1);
 	m_numEdges++;
 }
 void SJGraph::PrintGraph()
