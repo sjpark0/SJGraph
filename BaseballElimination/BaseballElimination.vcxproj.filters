@@ -27,6 +27,12 @@
     <ClCompile Include="BaseballTeam.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="SJFoldFulkerson.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SJFoldFulkersonArray.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SJGraph.h">
@@ -39,6 +45,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="BaseballTeam.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SJFoldFulkerson.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SJFoldFulkersonArray.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

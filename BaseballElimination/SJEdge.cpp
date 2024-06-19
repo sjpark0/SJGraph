@@ -19,3 +19,7 @@ float SJEdge::GetWeight()
 {
     return m_weight;
 }
+void SJEdge::SetWeight(float weight)
+{
+    m_weight = weight;
+}

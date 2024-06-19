@@ -1,7 +1,7 @@
-﻿// BaseballElimination.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
+﻿// BaseballElimination2.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
 //
 
-#include <stdio.h>
+#include <iostream>
 #include "BaseballTeam.h"
 #include "SJGraph.h"
 #include "SJEdge.h"
@@ -14,7 +14,7 @@ using namespace std;
 //SJFoldFulkersonArray* g_ff;
 SJFoldFulkerson* g_ff;
 
-bool ComputeElimination(BaseballTeam *ref, vector<BaseballTeam*> aTeam, vector<BaseballTeam*> *resTeam)
+bool ComputeElimination(BaseballTeam* ref, vector<BaseballTeam*> aTeam, vector<BaseballTeam*>* resTeam)
 {
     int num = aTeam.size();
     bool res = false;
@@ -27,14 +27,14 @@ bool ComputeElimination(BaseballTeam *ref, vector<BaseballTeam*> aTeam, vector<B
         }
     }
     if (resTeam->size() != 0) return true;
-        
+
 
     SJGraph* graph = new SJGraph(2 + num + num * (num - 1) / 2);
     int gameV = 1;
     int teamV = 1 + num * (num - 1) / 2;
     int numPossibleGame = 0;
-    for(int i=0;i<aTeam.size();i++){
-        for(int j=i+1;j<aTeam.size();j++){            
+    for (int i = 0; i < aTeam.size(); i++) {
+        for (int j = i + 1; j < aTeam.size(); j++) {
             graph->AddEdge(new SJEdge(0, gameV, aTeam[i]->GetAgainRemain(aTeam[j]->GetID())));
             numPossibleGame += aTeam[i]->GetAgainRemain(aTeam[j]->GetID());
             graph->AddEdge(new SJEdge(gameV, teamV, numeric_limits<float>::max()));
@@ -42,13 +42,13 @@ bool ComputeElimination(BaseballTeam *ref, vector<BaseballTeam*> aTeam, vector<B
             gameV++;
         }
         graph->AddEdge(new SJEdge(teamV, graph->GetNumVertices() - 1, ref->GetWin() + ref->GetRemain() - aTeam[i]->GetWin()));
-        
+
         teamV++;
     }
     //graph->PrintGraph();
 
     if (g_ff == NULL) {
-    //    g_ff = new SJFoldFulkersonArray(graph->GetNumVertices());
+        //    g_ff = new SJFoldFulkersonArray(graph->GetNumVertices());
         g_ff = new SJFoldFulkerson(graph->GetNumVertices());
     }
     //SJFoldFulkerson* g_ff = new SJFoldFulkerson(graph, 0, graph->GetNumVertices() - 1);
@@ -116,7 +116,7 @@ int main(int argc, char* argv[])
     fscanf(fp, "%d", &numTeam);
     int* againstRemain = new int[numTeam];
     BaseballTeam** teams = new BaseballTeam * [numTeam];
-    
+
     for (int i = 0; i < numTeam; i++) {
         fscanf(fp, "%s %d %d %d", name, &win, &lose, &remain);
         for (int j = 0; j < numTeam; j++) {
@@ -132,7 +132,7 @@ int main(int argc, char* argv[])
     ComputeElimination(teams, numTeam);
     clock_t end = clock();
     printf("Duration : %fms\n", (double)(end - start));
-    
+
     for (int i = 0; i < numTeam; i++) {
         delete teams[i];
     }
