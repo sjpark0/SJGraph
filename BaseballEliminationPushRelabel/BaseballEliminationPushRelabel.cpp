@@ -1,18 +1,17 @@
-﻿// BaseballElimination2.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
+﻿// BaseballElimination.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
 //
 
-#include <iostream>
+#include <stdio.h>
 #include "BaseballTeam.h"
 #include "SJGraph.h"
 #include "SJEdge.h"
-#include "SJFoldFulkerson.h"
-#include "SJFoldFulkersonArray.h"
+#include "SJPushRelabel.h"
 #include <vector>
 #include <time.h>
 
 using namespace std;
 //SJFoldFulkersonArray* g_ff;
-SJFoldFulkerson* g_ff;
+SJPushRelabel* g_ff;
 
 bool ComputeElimination(BaseballTeam* ref, vector<BaseballTeam*> aTeam, vector<BaseballTeam*>* resTeam)
 {
@@ -49,26 +48,26 @@ bool ComputeElimination(BaseballTeam* ref, vector<BaseballTeam*> aTeam, vector<B
 
     if (g_ff == NULL) {
         //    g_ff = new SJFoldFulkersonArray(graph->GetNumVertices());
-        g_ff = new SJFoldFulkerson(graph->GetNumVertices());
+        g_ff = new SJPushRelabel(graph->GetNumVertices());
     }
     //SJFoldFulkerson* g_ff = new SJFoldFulkerson(graph, 0, graph->GetNumVertices() - 1);
     //SJFoldFulkersonArray* ff = new SJFoldFulkersonArray(graph, 0, graph->GetNumVertices() - 1);
-    g_ff->ComputeMaxFlow(graph, 0, graph->GetNumVertices() - 1);
+    g_ff->GenericPushRelabel(graph);
     //printf("%d, %f\n", numPossibleGame, ff->GetMaxFlow());
-    if (numPossibleGame > g_ff->GetMaxFlow()) {
-        res = true;
-    }
+    //if (numPossibleGame > g_ff->GetMaxFlow()) {
+    //    res = true;
+    //}
     //printf("After\n");
     //graph->PrintGraph();
 
-    if (res == true) {
-        for (int j = 0; j < aTeam.size(); j++) {
-            if (g_ff->inCut(j + 1 + num * (num - 1) / 2)) {
+    //if (res == true) {
+    //    for (int j = 0; j < aTeam.size(); j++) {
+    //        if (g_ff->inCut(j + 1 + num * (num - 1) / 2)) {
                 //certificate[ref].add(teamName[teamIDs[j]]);
-                resTeam->push_back(aTeam[j]);
-            }
-        }
-    }
+    //            resTeam->push_back(aTeam[j]);
+    //        }
+    //    }
+    //}
 
     //delete g_ff;
     delete graph;
@@ -83,7 +82,7 @@ void ComputeElimination(BaseballTeam** teams, int numTeam)
     bool bEliminated;
     g_ff = NULL;
     for (int i = 0; i < numTeam; i++) {
-    //for (int i = 1; i < 2; i++) {
+        //for (int i = 1; i < 2; i++) {
         aTeam.clear();
         resTeam.clear();
         for (int j = 0; j < numTeam; j++) {
@@ -106,7 +105,7 @@ void ComputeElimination(BaseballTeam** teams, int numTeam)
 int main(int argc, char* argv[])
 {
     FILE* fp;
-    fp = fopen(argv[1], "r");
+    fp = fopen("teams4.txt", "r");
     int numTeam;
     char name[1024];
     int win;
