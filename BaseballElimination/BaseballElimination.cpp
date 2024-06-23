@@ -90,7 +90,7 @@ void ComputeElimination(BaseballTeam** teams, int numTeam)
             if (i != j) aTeam.push_back(teams[j]);
         }
         bEliminated = ComputeElimination(teams[i], aTeam, &resTeam);
-        /*if (bEliminated) {
+        if (bEliminated) {
             printf("%s is eliminated by the subset R = { ", teams[i]->GetName());
             for (iter = resTeam.begin(); iter != resTeam.end(); iter++) {
                 printf(" %s ", (*iter)->GetName());
@@ -99,7 +99,7 @@ void ComputeElimination(BaseballTeam** teams, int numTeam)
         }
         else {
             printf("%s is not eliminated\n", teams[i]->GetName());
-        }*/
+        }
         //printf("%s, %d\n", teams[i]->GetName(), ComputeElimination(teams[i], aTeam, resTeam));
     }
 }
